@@ -156,7 +156,7 @@ def remove_row():
     return null
 
 def get_final_piece(block, rotation):
-    print tetraminos[block][rotation]
     return tetraminos[block][rotation]
 
-get_final_piece(get_tetramino, rotate_tetramino(4))
+
+print get_final_piece(get_tetramino(), rotate_tetramino(0))
