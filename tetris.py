@@ -149,7 +149,7 @@ tetraminos = [[[[0,0,0,0,0],
                 [0,0,0,0,0]]]]
 
 def get_tetramino():
-    return randint(0, 7)
+    return randint(0, )
 
 
 def rotate_tetramino(rotation):
@@ -165,6 +165,7 @@ def get_final_piece(block, rotation):
 def new_board():
 	board = [ [ 0 for x in xrange(col) ]
 			for y in xrange(row) ]
+	board += [[ 1 for x in xrange(col)]]
 	return board
 
 def init_game(self):
@@ -172,21 +173,24 @@ def init_game(self):
 		self.score = 0
 		self.lines = 0
 
-def place_piece(final_piece, row):
-    height = 22
-    while check_collision() != true:
-        height-=1
-    
+def place_piece(final_piece, drop_row):
+
+    height = get_collision_height(board, final_piece, drop_row)
+
+    for x in range(0, 5):
+        for y in range(0,5):
+            board[height+y][drop_row+x] += final_piece[y][x]
 
 
-def check_collision(board, piece, height, row):
-        if height == 5:
-            return true
-        else:
-            return false
+def get_collision_height(board, piece, row):
+        return 1
 
 
-print new_board()
+board = new_board()
+
+place_piece(get_final_piece(4,0),2)
+
+print board
 
 
 
