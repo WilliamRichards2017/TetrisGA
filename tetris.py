@@ -1,7 +1,11 @@
 from random import randint
+import sys
 
 x = 0
 y = 0
+
+row = 22
+col = 10
 
 tetraminos = [[[[0,0,0,0,0],
                 [0,0,0,0,0],
@@ -158,5 +162,34 @@ def remove_row():
 def get_final_piece(block, rotation):
     return tetraminos[block][rotation]
 
+def new_board():
+	board = [ [ 0 for x in xrange(col) ]
+			for y in xrange(row) ]
+	return board
 
-print get_final_piece(get_tetramino(), rotate_tetramino(0))
+def init_game(self):
+		self.board = new_board()
+		self.score = 0
+		self.lines = 0
+
+def place_piece(final_piece, row):
+    height = 22
+    while check_collision() != true:
+        height-=1
+    
+
+
+def check_collision(board, piece, height, row):
+        if height == 5:
+            return true
+        else:
+            return false
+
+
+print new_board()
+
+
+
+
+
+##print get_final_piece(get_tetramino(), rotate_tetramino(0))
