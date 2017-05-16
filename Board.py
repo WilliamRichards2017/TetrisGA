@@ -37,7 +37,8 @@ class Board:
 			if row + piece.getBottom(rotation) >= self.height: #bottom collision
 				bestRow = row - 1
 				break
-			newBoard[2][2] = 0
+
+			
 			if np.amax(newBoard) > 1:
 				bestRow = row - 1
 				break
