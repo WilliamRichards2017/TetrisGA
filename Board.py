@@ -1,5 +1,4 @@
 import numpy as np
-import scipy as sc
 
 class Board:
 	def __init__(self, width,height):

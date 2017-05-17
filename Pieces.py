@@ -1,7 +1,6 @@
 from random import randint
 import sys
 import numpy as np
-import scipy as sc
 
 
 class Piece:
