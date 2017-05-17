@@ -2,9 +2,11 @@ import numpy as np
 
 class Board:
 	def __init__(self, width,height):
-		self.width = width
+		self.width = width + 4
 		self.height = height
-		self.board = np.array([[0]*width]*height)
+		self.board = np.array([[0]*self.width]*self.height)
+		self.board[:,0:2] = np.array([[1]*2]*self.height)
+		self.board[:,self.width-2:self.width] = np.array([[1]*2]*self.height)
 	
 	def __str__(self):
 		return str(self.board)
@@ -23,6 +25,7 @@ class Board:
 		
 		pieceArray = piece.getPieceArray(rotation)
 		pieceArray[2,2] = 1
+		
 		pieceArray = pieceArray[piece.getTop(rotation):piece.getBottom(rotation)+1, 0:5]
 		pHeight = piece.getBottom(rotation) - piece.getTop(rotation) + 1
 		bestRow = self.height - pHeight
@@ -30,8 +33,11 @@ class Board:
 			smallBoard = self.board[row:row+pHeight, column-2:column+3]
 			#print smallBoard
 			#print pieceArray
-			newBoard = smallBoard + pieceArray
-			#print newBoard
+			try:
+				newBoard = smallBoard + pieceArray
+			except:
+				return -1
+				#print newBoard
 			
 			if row + piece.getBottom(rotation) >= self.height: #bottom collision
 				bestRow = row - 1
