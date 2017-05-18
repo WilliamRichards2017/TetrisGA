@@ -17,5 +17,8 @@ while value != -1:
 	rotation = int(raw_input("Which rotation do you want the piece (0-3)?: "))
 	col = int(raw_input("Which column do you want to place it in? "))
 	value = board.addPiece(piece, rotation, col)
-
+	lines = lines + board.clearRows()
+	print ""
+	print("Your score is " + str(lines) + " lines cleared")
+	print  ""
 print("game over")
