@@ -7,9 +7,12 @@ class Board:
 		self.board = np.array([[0]*self.width]*self.height)
 		self.board[:,0:2] = np.array([[1]*2]*self.height)
 		self.board[:,self.width-2:self.width] = np.array([[1]*2]*self.height)
+		self.testArray = np.array([1]*self.width)
+		self.replacementArray = np.concatenate(([1, 1], [0]*width, [1, 1]))
 	
 	def __str__(self):
-		return str(self.board)
+		return str(np.vstack((self.board, np.array(range(self.width))))) #adding col nums
+
 	
 	def getBoard(self):
 		return self.board
@@ -53,7 +56,19 @@ class Board:
 		#print 
 		self.board[bestRow:bestRow+pHeight, column-2:column+3] = pieceArray + self.board[bestRow:bestRow+pHeight, column-2:column+3]
 		return 1 
-		
+
+	def clearRows(self):
+		'''returns number of rows cleared. Updates board'''
+		count = 0
+		for i in range(len(self.board)):
+			row = self.board[i]
+			if np.array_equal(row, self.testArray):
+				self.board[0:i+1] = np.roll(self.board[0:i+1], self.width) 
+				self.board[0] = self.replacementArray
+				count += 1
+		return count
+
+
 		
 		
 		
