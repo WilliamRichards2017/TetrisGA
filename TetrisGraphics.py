@@ -28,6 +28,7 @@ board = Board(10, 22)
 window = gs.GraphWin("tetris",  (15*40) + 300, 880)
 scoreTXT = gs.Text(gs.Point(700, 850), "Your Score is 0")
 scoreTXT.draw(window)
+redraw = False
 
 things = []
 
@@ -50,13 +51,15 @@ while value != -1:
 	index = 0
 	for i in range(len(board.board)):
 		for j in range(len(board.board[i])):
-			if board.board[i][j] != prevVals[index]:
+			if board.board[i][j] != prevVals[index] or redraw:
 				r = things[index]
 			
 				if board.board[i][j] == 1:
-					r.setFill("red")	
+					r.setFill("red")
+					prevVals[index] = 1	
 				else:
 					r.setFill("white")
+					prevVals[index] = 0
 			
 			index += 1
 			
@@ -65,7 +68,7 @@ while value != -1:
 
 	pieceNum = random.randint(0, 6)
 	piece = Piece(pieceNum)
-	print(board)
+	#print(board)
 	output = [piece.getPieceArray(i) for i in range(4)]
 	index = 0
 	for k in range(len(output)):
@@ -100,8 +103,12 @@ while value != -1:
 	txt.undraw()
 	col = isValidCol(position)
 	value = board.addPiece(piece, rotation, col)
-	lines = lines + board.clearRows()
+	cleared = board.clearRows()
+	redraw = False
+	if cleared > 0:
+		lines = lines + cleared
+		redraw = True
 	scoreTXT.setText("Your score is " + str(lines))
-print("game over")
+#print("game over")
 gs.Text(gs.Point(420, 420), "GAME OVER. YOUR FINAL SCORE IS " + str(lines)).draw(window)
 window.getMouse()
