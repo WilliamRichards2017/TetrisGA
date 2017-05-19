@@ -34,29 +34,23 @@ class Board:
 		bestRow = self.height - pHeight 
 		for row in range(self.height-pHeight + 1):
 			smallBoard = self.board[row:row+pHeight, column-2:column+3]
-			#print smallBoard
-			#print pieceArray
+
 			try:
 				newBoard = smallBoard + pieceArray
-				print newBoard
 			except:
 				return -1
 				
 			
 			if row + piece.getBottom(rotation) - piece.getTop(rotation) >= self.height: #bottom collision
 				bestRow = row - 1
-				print "hit bottom!"
 				break
 
-			print np.amax(newBoard)
 			if np.amax(newBoard) > 1:
 				bestRow = row - 1
-				print "yup"
 				break
 		if bestRow < 0:
 			return -1
-		#print self.board[bestRow:bestRow+pHeight, column-2:column+3]
-		#print 
+
 		self.board[bestRow:bestRow+pHeight, column-2:column+3] = pieceArray + self.board[bestRow:bestRow+pHeight, column-2:column+3]
 		return 1 
 
