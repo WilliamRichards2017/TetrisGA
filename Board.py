@@ -4,11 +4,11 @@ class Board:
 	def __init__(self, width,height):
 		self.width = width + 4
 		self.height = height
-		self.board = np.array([[0]*self.width]*self.height)
-		self.board[:,0:2] = np.array([[1]*2]*self.height)
-		self.board[:,self.width-2:self.width] = np.array([[1]*2]*self.height)
-		self.testArray = np.array([1]*self.width)
-		self.replacementArray = np.concatenate(([1, 1], [0]*width, [1, 1]))
+		self.board = np.array([[0.]*self.width]*self.height)
+		self.board[:,0:2] = np.array([[1.]*2]*self.height)
+		self.board[:,self.width-2:self.width] = np.array([[1.]*2]*self.height)
+		self.testArray = np.array([1.]*self.width)
+		self.replacementArray = np.concatenate(([1., 1.], [0.]*width, [1., 1.]))
 	
 	def __str__(self):
 		return str(np.vstack((self.board, np.array(range(self.width))))) #adding col nums
@@ -39,7 +39,6 @@ class Board:
 				newBoard = smallBoard + pieceArray
 			except:
 				return -1
-				
 			
 			if row + piece.getBottom(rotation) - piece.getTop(rotation) >= self.height: #bottom collision
 				bestRow = row - 1
