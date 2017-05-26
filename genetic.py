@@ -6,6 +6,8 @@ import csv
 from Pieces import *
 from Board import *
 
+PRINT = False
+
 popSize = 50
 maxGeneration = 200
 bestIndividuals = 2
@@ -17,11 +19,11 @@ params.PopulationSize = popSize
 params.RouletteWheelSelection = True
 
 
-params.MutateRemLinkProb = 0.02
+params.MutateRemLinkProb = 0.2
 params.RecurrentProb = 0
 params.OverallMutationRate = 0.50
-params.MutateAddLinkProb = 0.08
-params.MutateAddNeuronProb = 0.01
+params.MutateAddLinkProb = 0.2
+params.MutateAddNeuronProb = 0.2
 params.MutateWeightsProb = 0.90
 params.MaxWeight = 8.0
 params.WeightMutationMaxPower = 0.2
@@ -90,10 +92,10 @@ params.DynamicCompatibility = True
 
 
 pop = NEAT.Population(genome, params, True, 1.0, 0)
-substrate = [(i/width , i % width)  for i in range(width * height)]
-piecearray = [(i/5 , i % 5)  for i in range(25)]
+substrate = [((i/width)/height , (i % width)/width, 0.0)  for i in range(width * height)]
+piecearray = [(i/25, (i % 5)/5, 1.0)  for i in range(25)]
 substrate.extend(piecearray * 4)
-substrate = NEAT.Substrate( substrate, [], [(2, 11), (0, 3)])
+substrate = NEAT.Substrate( substrate, [], [((i-7)/7,) for i in range(14)])
 
 def evaluate(genome):
     # create a neural network for the genome
@@ -126,12 +128,12 @@ def evaluate(genome):
         net.Activate()
         output = net.Output()
         
-        
-        print "output:", output[0], "outout", output[1]
+        if PRINT:
+            print "output:", output[0], "outout", output[1]
         ## Found bug, output isnt always between 0 and 1
-        col = int((output[0]*8 %8) + 2) 
-        rot = int(output[1]*3 % 3)
-        
+        col = int(sum(output[0:10]))
+        rot = int(sum(output[10:14]))
+        print col, rot
         ##print "output1:", output[0], "output2:", output[1]
 
         # update the board by the output we get
@@ -142,11 +144,12 @@ def evaluate(genome):
             #print board
             break
         current += 1
-        
-    print "Rows Cleard:", line," Pieces: ", current
+	
+	
         
     # evaluate fitness
     #return line
+    print "Rows Cleared:", line," Pieces: ", current
     return current
     
 def main():
@@ -162,7 +165,7 @@ def main():
             fitness = evaluate(genome)
             genome.SetFitness(fitness)
             sum += fitness
-        avg = sum/float(popSize)
+        avg = sum/float(len(genome_list))
         print avg
         # at this point we may output some information regarding the progress of evolution, best fitness, etc.
         # it's also the place to put any code that tracks the progress and saves the best genome or the entire
